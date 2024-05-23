@@ -150,12 +150,16 @@ def create_text_fields(*args):
 
     try:
         for i in range(num_of_bodies.get()):
-            mass_variables[f'mass_var{i}'] = tk.DoubleVar()
-            tk.Entry(mass_frame, textvariable=f'mass_var{i}').grid(row=1, column=i + 1, padx=10, pady=5)
+            mass_var = tk.DoubleVar()
+            entry = tk.Entry(mass_frame, textvariable=mass_var)
+            entry.grid(row=1, column=i + 1, padx=10, pady=5)
+            mass_variables[entry] = mass_var
 
         for i in range(num_of_bodies.get() + 1):
-            k_variables[f'k_var{i}'] = tk.DoubleVar()
-            tk.Entry(k_frame, textvariable=f'k_var{i}').grid(row=2, column=i + 1, padx=10, pady=5)
+            k_var = tk.DoubleVar()
+            entry = tk.Entry(k_frame, textvariable=k_var)
+            entry.grid(row=2, column=i + 1, padx=10, pady=5)
+            k_variables[entry] = k_var
 
         options = [i for i in range(1, num_of_bodies.get() + 1)]
         dropdown = ttk.Combobox(deviation_frame, textvariable=deviation_body, values=options)
@@ -178,6 +182,9 @@ def create_text_fields(*args):
 root = tk.Tk()
 root.title("Unos promenljivih")
 
+mass_variables = {}
+k_variables = {}
+
 tk.Label(root, text="Unesite broj tela:").grid(row=0, column=0, padx=10, pady=5, sticky="w")
 num_of_bodies = tk.IntVar()
 num_of_bodies.trace('w', create_text_fields)
@@ -188,14 +195,10 @@ tk.Label(root, text="Unesite mase tela:").grid(row=1, column=0, padx=10, pady=5,
 mass_frame = tk.Frame(root)
 mass_frame.grid(row=1, column=1, padx=10, pady=10, sticky="w")
 
-mass_variables = {}
-
 # Constant k
 tk.Label(root, text="Unesite konstante elastičnosti:").grid(row=2, column=0, padx=10, pady=5, sticky="w")
 k_frame = tk.Frame(root)
 k_frame.grid(row=2, column=1, padx=10, pady=10, sticky="w")
-
-k_variables = {}
 
 # Equilibrium deviation
 tk.Label(root, text="Izaberite telo van ekvilibrijuma:").grid(row=3, column=0, padx=10, pady=5, sticky="w")
