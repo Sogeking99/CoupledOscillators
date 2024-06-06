@@ -11,22 +11,22 @@ from tkinter import messagebox
 
 def submit():
     if deviation_var.get() > 0.07:
-        messagebox.showinfo("Obaveštenje", "Udaljenost od ekvilibrijuma ne može biti veća od 0.7.")
+        messagebox.showinfo("Obaveštenje", "Udaljenost od ekvilibrijuma ne može biti veća od 0.07.")
     else:
         mass_list = [var.get() for var in mass_variables.values()]
-        m = np.array(mass_list)        # Masses of bodies
+        m = np.array(mass_list)                      # Masses of bodies
 
         k_list = [var.get() for var in k_variables.values()]
-        k = np.array(k_list)             # Strength of springs
-        n = len(m)                                  # Number of bodies
+        k = np.array(k_list)                         # Strength of springs
+        n = len(m)                                   # Number of bodies
 
         if n+1 != len(k):
             messagebox.showinfo("Obaveštenje", "Neispravan broj tela i opruga.")
             sys.exit()
 
-        x = np.zeros(n)     # Initial positions, set to 0 from equilibrium
+        x = np.zeros(n)                                        # Initial positions, set to 0 from equilibrium
         x[deviation_body.get()-1] = deviation_var.get()        # Setting one intial position sligtly away from equilibrium
-        xdot = np.zeros(n)  # Inital velocities of bodies set to 0
+        xdot = np.zeros(n)                                     # Inital velocities of bodies set to 0
 
         L = (n+1)*0.1       # Total length from wall 1 to wall 2
         dL = 0.1            # Distance between objects
@@ -77,7 +77,9 @@ def submit():
 
         t += dt
         while t<t_max:
-            # rate(100)
+            
+            # Function for starting animation
+            rate(100)
 
             for  i in range(0,n):
 
@@ -119,6 +121,15 @@ def submit():
             # Loop constraint
             t = t + dt
 
+        # In VPython we can't delete objects so we make them invisible
+        left.visible = False
+        right.visible = False
+
+        for i in range(n):
+            cars[i].visible = False
+            springs[i].visible = False
+        springs[n].visible = False
+        
         # Plotting the results
         plt.figure(figsize=(10, 6))
 
