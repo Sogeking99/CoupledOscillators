@@ -147,6 +147,9 @@ def submit():
         plt.grid(True)
         plt.show()
 
+    mass_variables.clear()
+    k_variables.clear()
+
 
 def create_text_fields(*args):
     # Clear any existing text fields
